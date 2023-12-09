@@ -1,0 +1,99 @@
+{
+    "Fire affinity": {
+        "attack": [
+            {"fire": {
+                "type": "flat",
+                "value": 5
+                }
+            }
+        ]        
+    },
+    "Lightning affinity": {
+        "attack": [
+            {"lightning": {
+                "type": "flat",
+                "value": 5
+                }
+            }
+        ]
+    },
+    "God": {
+        "defence": {
+            "armour-type": "all",
+            "effects": [
+                {"lightning": {
+                    "type": "flat",
+                    "value": 10
+                    }
+                },
+                {"fire": {
+                    "type": "flat",
+                    "value": 10
+                    }
+                }               
+            ]
+        }
+    },
+    "Massive": {
+        "defence": {
+            "armour-type": "chestArmour",
+            "effects": [
+                {"physical": {
+                    "type": "flat",
+                    "value": 5
+                    }
+                }
+            ]
+        }
+    },
+    "Light weight": {
+        "defence": {
+            "armour-type": "all",
+            "effects": [
+                {"physical": {
+                    "type": "flat",
+                    "value": -5
+                    }
+                },
+                {"fire": {
+                    "type": "flat",
+                    "value": 10
+                    }
+                }
+            ]
+        }
+    },
+    "Blacksmith": {
+        "defence": {
+            "armour-type": "chestArmour",
+            "effects": [
+                {"all": {
+                    "type": "flat",
+                    "value": 10                    
+                    }
+                }
+            ]
+        }
+    },
+    "Safety first": {
+        "defence": {
+            "armour-type": "headArmour",
+            "effects": [
+                {"all": {
+                    "type": "flat",
+                    "value": 7
+                    }
+                }
+            ]
+        }
+    },
+    "Almighty": {
+        "attack": [
+            {"all": {
+                "type": "percent",
+                "value": 0.50
+                }
+            }
+        ]
+    }
+}

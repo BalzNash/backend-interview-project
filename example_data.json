@@ -1,0 +1,70 @@
+{
+    "data": {
+        "duel": {
+            "enemy": {
+                "name": "The Mute Musician",
+                "headArmour": {
+                    "name": "Obsidian Jaws of Infinite Ancestors",
+                    "defence": {
+                        "physical": 10,
+                        "lightning": 10,
+                        "fire": 10
+                        }
+                    },
+                "chestArmour": {
+                    "name": "Ghastly Ebon Chestplate",
+                    "defence": {
+                        "physical": 20,
+                        "lightning": 20,
+                        "fire": 20
+                        }
+                    },
+                "weapon": {
+                    "name": "Atuned Trinket",
+                    "attack": {
+                        "physical": 100,
+                        "lightning": 50,
+                        "fire": 10
+                        }
+                    },
+                "talents": [
+                    "Massive",
+                    "God",
+                    "Fire affinity"
+                ]
+            },
+            "myself": {
+                "name": "Hall",
+                "headArmour": {
+                    "name": "Plate Casque of Unholy Lands",
+                    "defence": {
+                        "physical": 10,
+                        "lightning": 10,
+                        "fire": 10
+                    }
+                },
+                "chestArmour": {
+                    "name": "Wind-Forged Chestpiece of Stealth",
+                    "defence": {
+                        "physical": 20,
+                        "lightning": 20,
+                        "fire": 20
+                    }
+                },
+                "weapon": {
+                    "name": "Earthfire",
+                    "attack": {
+                        "physical": 100,
+                        "lightning": 50,
+                        "fire": 10
+                    }
+                },
+                "talents": [
+                    "Fire affinity",
+                    "Safety first",
+                    "God"
+                ]
+            }
+        }
+    }
+}
