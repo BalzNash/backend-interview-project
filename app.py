@@ -53,10 +53,12 @@ def apply_effect(effect: dict, entity_stats: dict, talent_type: str) -> None:
     entity_stats (dict): collection of the entity's stats that can be modified by an effect
     talent_type (str): identifies an "attack" or "defence" talent
     """
+    # effect applies to all stats
     if "all" in  effect:
         effect_values = effect["all"]
         for stat_type in entity_stats:
             edit_stat(stat_type, entity_stats, effect_values, talent_type)
+    # effect applies to only one stat
     else:
         stat_type = list(effect.keys())[0]
         effect_values = effect[stat_type]
@@ -73,16 +75,20 @@ def apply_talent(entity: dict, talent: dict) -> None:
     entity (dict): entity on which the talent is applied
     talent (dict): collection of all the effects of a talent
     """
+    # attack talent
     if "attack" in talent:
         entity_attack_stats = entity["weapon"]["attack"]
         for effect in talent["attack"]["effects"]:
             apply_effect(effect, entity_attack_stats, talent_type="attack")
+    # defence talent
     if "defence" in talent:
+        # talent applies to all armour types
         if talent["defence"]["armour-type"] == "all":
             for armour_type in ["headArmour", "chestArmour"]:
                 for effect in talent["defence"]["effects"]:
                     entity_defence_stats = entity[armour_type]["defence"]
                     apply_effect(effect, entity_defence_stats, "defence")
+        # talent applies to only one armour
         else:
             armour_type = talent["defence"]["armour-type"]
             for effect in talent["defence"]["effects"]:
@@ -104,7 +110,7 @@ def compute_mitigation(attack_stats: dict, armour_stats: dict) -> dict:
 
     """
     return {stat_type: cap_stat(attack_stats[stat_type] 
-                              - attack_stats[stat_type] * armour_stats[stat_type] / 100, "attack")
+                              - attack_stats[stat_type] * armour_stats[stat_type] / 100, talent_type="attack")
                                 for stat_type in attack_stats}
 
 
