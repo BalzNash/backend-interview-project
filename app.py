@@ -5,7 +5,7 @@ from copy import deepcopy
 from flask import Flask
 from jsonschema import validate
 
-def cap_stat(stat: int, talent_type: str) -> int:
+def cap_stat(stat: float, talent_type: str) -> float:
     """
     forces all stats to be at least 0, and defense stats at most 100
     
@@ -90,7 +90,7 @@ def apply_talent(entity: dict, talent: dict) -> None:
                     apply_effect(effect, entity_defence_stats, talent_type="defence")
 
 
-def compute_mitigation(attack_stats: dict, armour_stats: dict):
+def compute_mitigation(attack_stats: dict, armour_stats: dict) -> dict:
     """
     computes the mitigation done by an armour on each attack stats
 
@@ -107,7 +107,7 @@ def compute_mitigation(attack_stats: dict, armour_stats: dict):
                                 for stat_type in attack_stats}
 
 
-def compute_effective_damage(attack_stats, chest_defence, head_defence):
+def compute_effective_damage(attack_stats: dict, chest_defence: dict, head_defence: dict) -> dict:
     """
     applies chest armour mitigation first, then head mitigation on the attack stats
 
@@ -122,7 +122,7 @@ def compute_effective_damage(attack_stats, chest_defence, head_defence):
     return compute_mitigation(demage_after_chest_mitigation, head_defence)
 
 
-def round_effective_damage(effective_damage):
+def round_effective_damage(effective_damage: dict) -> dict:
     """rounds the effective damage"""
     for type, value in effective_damage.items():
         effective_damage[type] = round(value)
