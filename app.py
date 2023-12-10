@@ -92,7 +92,8 @@ def apply_talent(entity: dict, talent: dict) -> None:
 
 def compute_mitigation(attack_stats: dict, armour_stats: dict) -> dict:
     """
-    computes the mitigation done by an armour on each attack stats
+    computes the mitigation done by an armour on each attack stat. armour stats represent a % mitigation
+    new_attack_stat = old_attack_stat - (old_attack_stat * armour_stat) / 100
 
     parameters:
     attack_stats (dict): collection of all attack stats
