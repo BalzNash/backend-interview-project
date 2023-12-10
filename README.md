@@ -8,7 +8,7 @@ A simple Flask API that aquires some JSON data, processes the data and sends it 
 3. the raw damage is calculated
 4. talents (stat modifications) are applied to both entities
 5. the effective damage is calculated by applying armour mitigation
-6. the effective damage is sent to another API for verification
+6. the effective damage is sent to another API with a POST request for verification
 7. the verifier API responds, indicating whether the effective damage sent is correct or not, together with the correct effective damage
 
 the effective damage calculated by the verifier API is not always equal to the one sent by our API, because of rounding differences (the differences are less than 1 stat point) and because the verifier API allows attack values under 0 while our API sets the minimum value to 0 and, only for armour stats, the maximum value to 100 since it's a % mitigation.
