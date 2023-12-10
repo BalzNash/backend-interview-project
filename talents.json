@@ -1,21 +1,25 @@
 {
     "Fire affinity": {
-        "attack": [
-            {"fire": {
-                "type": "flat",
-                "value": 5
+        "attack": {
+            "effects": [
+                {"fire": {
+                    "type": "flat",
+                    "value": 5
+                    }
                 }
-            }
-        ]        
+            ]        
+        }
     },
     "Lightning affinity": {
-        "attack": [
-            {"lightning": {
-                "type": "flat",
-                "value": 5
+        "attack": {
+            "effects": [
+                {"lightning": {
+                    "type": "flat",
+                    "value": 5
+                    }
                 }
-            }
-        ]
+            ]
+        }
     },
     "God": {
         "defence": {
@@ -88,12 +92,14 @@
         }
     },
     "Almighty": {
-        "attack": [
-            {"all": {
-                "type": "percent",
-                "value": 0.50
+        "attack": {
+            "effects": [
+                {"all": {
+                    "type": "percent",
+                    "value": 0.50
+                    }
                 }
-            }
-        ]
+            ]
+        }
     }
 }

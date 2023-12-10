@@ -2,6 +2,7 @@ import requests
 import json
 import urllib3
 from copy import deepcopy
+from flask import Flask
 
 def cap_stat(stat: int, talent_type: str) -> int:
     """
@@ -38,7 +39,7 @@ def edit_stat(stat_type: str, entity_stats: dict, effect_values: dict, talent_ty
     elif effect_values["type"] == 'percent':
         entity_stats[stat_type] = cap_stat(round(entity_stats[stat_type] + entity_stats[stat_type] * effect_values["value"]), talent_type)
     else:
-        pass
+        raise Exception("effect type not recognized")
 
 
 def apply_effect(effect: dict, entity_stats: dict, talent_type: str) -> None:
@@ -65,7 +66,7 @@ def apply_talent(entity: dict, talent: dict) -> None:
     """
     applies a talent to an entity by traversing both objects.
     to apply the talent, it needs to apply one or more effects.
-    modifications that alter all armours or all stat types (physical, fire, lightning) are considered a single effect.
+    modifications that alter all armours and/or all stat types (physical, fire, lightning) are considered a single effect.
 
     parameters:
     entity (dict): entity on which the talent is applied
@@ -73,7 +74,7 @@ def apply_talent(entity: dict, talent: dict) -> None:
     """
     if "attack" in talent:
         entity_attack_stats = entity["weapon"]["attack"]
-        for effect in talent["attack"]:
+        for effect in talent["attack"]["effects"]:
             apply_effect(effect, entity_attack_stats, "attack")
     if "defence" in talent:
         if talent["defence"]["armour-type"] == "all":
@@ -88,19 +89,34 @@ def apply_talent(entity: dict, talent: dict) -> None:
                     apply_effect(effect, entity_defence_stats, "defence")
 
 
-if __name__ == "__main__":
+def compute_mitigation(weapon_stats, defence_type):
+    return {stat_type: cap_stat(weapon_stats[stat_type] 
+                              - weapon_stats[stat_type] * defence_type[stat_type] / 100, "attack")
+                                for stat_type in weapon_stats}
 
+
+def compute_effective_damage(weapon_stats, chest_defence, head_defence):
+    demage_after_chest_mitigation = compute_mitigation(weapon_stats, chest_defence)
+    return compute_mitigation(demage_after_chest_mitigation, head_defence)
+
+
+def round_effective_damage(effective_damage):
+    for type, value in effective_damage.items():
+        effective_damage[type] = round(value)
+
+
+app = Flask(__name__)
+
+@app.route('/data')
+def data():
     URL_GET = "https://hiring-test-dxxsnwdabq-oa.a.run.app/duel"
     URL_POST = "https://hiring-test-dxxsnwdabq-oa.a.run.app/processDuel"
-    data = requests.get(URL_GET).json()
     with open('talents.json') as json_file:
         talents = json.load(json_file)
 
-    #with open('data.json') as json_file:
-    #    data = json.load(json_file)
-
+    data = requests.get(URL_GET).json()
     # deepcopy required because talents are applied in place to the entities
-    # and we need to send the original entities to the server 
+    # but we need to send the original entities to the server
     enemy = data["data"]["duel"]["enemy"]
     enemy_copy = deepcopy(enemy)
     myself = data["data"]["duel"]["myself"]
@@ -116,9 +132,8 @@ if __name__ == "__main__":
     
     chest_defence = enemy["chestArmour"]["defence"]
     head_defence = enemy["headArmour"]["defence"]
-    
-    demage_after_chest_mitigation = {stat_type: my_weapon_stats[stat_type] - my_weapon_stats[stat_type] * chest_defence[stat_type] / 100 for stat_type in my_weapon_stats}
-    effective_damage = {stat_type: round(demage_after_chest_mitigation[stat_type] - demage_after_chest_mitigation[stat_type] * head_defence[stat_type] / 100) for stat_type in demage_after_chest_mitigation}
+    effective_damage = compute_effective_damage(my_weapon_stats, chest_defence, head_defence)
+    round_effective_damage(effective_damage)
 
     out_data = {
         "data": {
@@ -133,5 +148,7 @@ if __name__ == "__main__":
     response = urllib3.request("POST", URL_POST,
                                 headers={'Content-Type': 'application/json'},
                                 body=json.dumps(out_data, sort_keys=True))
-    print(json.dumps(json.loads(response.data), indent=4))
+    return (json.dumps(json.loads(response.data), indent=4))
 
+if __name__ == "__main__":
+    app.run(debug=True)
