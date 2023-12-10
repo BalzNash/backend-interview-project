@@ -1,0 +1,223 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "duel data",
+    "description": "data from a duel between myself and enemy",
+    "type": "object",
+    "properties": {
+       "data": {
+            "type": "object",
+            "properties": {
+                "duel": {
+                    "type": "object",
+                    "properties": {
+                        "enemy": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "headArmour": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "defence": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "chestArmour": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "defence": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "weapon": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "attack": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "talents": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 1,
+                                    "maxItems": 3
+                                }
+                            },
+                            "required": ["name", "headArmour", "chestArmour", "weapon", "talents"]
+                        },
+                        "myself": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "headArmour": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "defence": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "chestArmour": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "defence": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0,
+                                                    "maximum": 100
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "weapon": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "attack": {
+                                            "type": "object",
+                                            "properties": {
+                                                "physical": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                },
+                                                "lightning": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                },
+                                                "fire": {
+                                                    "type": "integer",
+                                                    "minumum": 0
+                                                }
+                                            },
+                                            "required": ["physical", "lightning", "fire"]
+                                        }
+                                    }
+                                },
+                                "talents": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 1,
+                                    "maxItems": 3
+                                }
+                            },
+                            "required": ["name", "headArmour", "chestArmour", "weapon", "talents"]
+                        }                  
+                    },
+                    "required": ["enemy", "myself"]
+                }
+            },
+            "required": ["duel"]
+        }
+    },
+    "required": ["data"]
+}

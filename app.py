@@ -3,6 +3,7 @@ import json
 import urllib3
 from copy import deepcopy
 from flask import Flask
+from jsonschema import validate
 
 def cap_stat(stat: int, talent_type: str) -> int:
     """
@@ -137,10 +138,13 @@ def index():
 def data():
     URL_GET = "https://hiring-test-dxxsnwdabq-oa.a.run.app/duel"
     URL_POST = "https://hiring-test-dxxsnwdabq-oa.a.run.app/processDuel"
-    with open('./talents.json') as json_file:
-        talents = json.load(json_file)
-
     duel_data = requests.get(URL_GET).json()
+
+    #data validation
+    with open('./data_schema.json') as json_file:
+        data_schema = json.load(json_file)
+    validate(instance=duel_data, schema=data_schema)
+
     # deepcopy required because talents are applied in place to the entities
     # but we need to send the original entities to the server
     enemy = duel_data["data"]["duel"]["enemy"]
@@ -151,11 +155,16 @@ def data():
 
     raw_damage = sum(my_attack_stats.values())
 
+    #apply talents
+    with open('./talents.json') as json_file:
+        talents = json.load(json_file)
+
     for talent in myself["talents"]:
         apply_talent(myself, talents[talent])
     for talent in enemy["talents"]:
         apply_talent(enemy, talents[talent])
     
+    #effective damage computation
     chest_defence = enemy["chestArmour"]["defence"]
     head_defence = enemy["headArmour"]["defence"]
     effective_damage = compute_effective_damage(my_attack_stats, chest_defence, head_defence)
