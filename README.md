@@ -1,9 +1,9 @@
 # backend-interview-project
 
-A simple API that aquires some JSON data, processes the data and sends it to another API
+A simple Flask API that aquires some JSON data, processes the data and sends it to another API
 
 1. the API sends a GET request to an external API
-2. a JSON file containing duel data between 'enemy' and 'myself' is received
+2. a JSON file containing duel data between 'enemy' and 'myself' is received, 'myself' attacks 'enemy'
 3. the raw damage is calculated
 4. talents (stat modifications) are applied to both entities
 5. the effective damage is calculated by applying armour mitigation
@@ -14,10 +14,9 @@ the effective damage calculated by the verifier API is not always equal to the o
 
 ## contents
 
-- app.py : main app
+- app.py : main Flask app
 - test.py : unit tests
 - talents.json : all talents that can be applied
-- example_data.json : data example from the assignment pdf
 - tests_data/ : mock data for unit tests
 - requirements.txt : dependencies
 - assignment.pdf : instructions for the assignment

@@ -113,9 +113,9 @@ class Test_apply_effect(unittest.TestCase):
 
 
 class Test_apply_talent(unittest.TestCase):
-    with open('example_data.json') as json_file:
+    with open('./tests_data/example_data.json') as json_file:
         entity = json.load(json_file)["data"]["duel"]["myself"]
-    with open('talents.json') as json_file:
+    with open('./talents.json') as json_file:
         talents = json.load(json_file)
 
     def test_attack_talent(self):

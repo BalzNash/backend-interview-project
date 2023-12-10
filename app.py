@@ -137,7 +137,7 @@ def index():
 def data():
     URL_GET = "https://hiring-test-dxxsnwdabq-oa.a.run.app/duel"
     URL_POST = "https://hiring-test-dxxsnwdabq-oa.a.run.app/processDuel"
-    with open('talents.json') as json_file:
+    with open('./talents.json') as json_file:
         talents = json.load(json_file)
 
     duel_data = requests.get(URL_GET).json()
