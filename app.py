@@ -10,11 +10,11 @@ def cap_stat(stat: float, talent_type: str) -> float:
     forces all stats to be at least 0, and defense stats at most 100
     
     parameters:
-    stat (int): stat value
-    talent_type (str): "attack" or "defense" talent
+    stat (float): stat value
+    talent_type (str): identifies an "attack" or "defence" talent
 
     returns:
-    int: final stat value
+    float: final stat value
     """
     if stat > 100 and talent_type == "defence":
         return 100
@@ -32,7 +32,7 @@ def edit_stat(stat_type: str, entity_stats: dict, effect_values: dict, talent_ty
     stat_type (str): type of stat e.g. 'physical', 'fire', etc.
     entity_stats (dict): collection of all stat types of an entity with their stat values
     effect_values (dict): collection of the type and the value of an effect
-    talent_type (str): "attack" or "defence" talent
+    talent_type (str): identifies an "attack" or "defence" talent
 
     """
     if effect_values["type"] == 'flat':
@@ -109,11 +109,12 @@ def compute_mitigation(attack_stats: dict, armour_stats: dict) -> dict:
 
 def compute_effective_damage(attack_stats: dict, chest_defence: dict, head_defence: dict) -> dict:
     """
-    applies chest armour mitigation first, then head mitigation on the attack stats
+    applies chest armour mitigation first, then head mitigation, on the attack stats
 
     parameters:
     attack_stats (dict): collection of all attack stats
-    armour_stats (dict): collection of all armour stats for a specific armour
+    chest_defence (dict): collection of all chest armour stats
+    head_defence (dict): collection of all head armour stats
 
     returns:
     dict: effective damage
