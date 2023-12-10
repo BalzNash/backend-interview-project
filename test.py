@@ -142,7 +142,7 @@ class Test_apply_talent(unittest.TestCase):
 
 class Test_compute_mitigation(unittest.TestCase):
     def test_compute_mitigation(self):
-        weapon_stats = {
+        attack_stats = {
             "physical": 100,
             "lightning": 50,
             "fire": 10
@@ -152,7 +152,7 @@ class Test_compute_mitigation(unittest.TestCase):
             "lightning": 50,
             "fire": 100           
         }
-        damage_after_mitigation = compute_mitigation(weapon_stats, chest_defence)
+        damage_after_mitigation = compute_mitigation(attack_stats, chest_defence)
         expected = {
             "physical": 25,
             "lightning": 25,
@@ -163,7 +163,7 @@ class Test_compute_mitigation(unittest.TestCase):
 
 class Test_compute_effective_damage(unittest.TestCase):
     def test_compute_effective_damage(self):
-        weapon_stats = {
+        attack_stats = {
             "physical": 100,
             "lightning": 50,
             "fire": 10
@@ -178,7 +178,7 @@ class Test_compute_effective_damage(unittest.TestCase):
             "lightning": 5,
             "fire": 100           
         }
-        effective_damage = compute_effective_damage(weapon_stats, chest_defence, head_defence)
+        effective_damage = compute_effective_damage(attack_stats, chest_defence, head_defence)
         expected = {
             "physical": 12.5,
             "lightning": 23.75,

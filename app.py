@@ -75,7 +75,7 @@ def apply_talent(entity: dict, talent: dict) -> None:
     if "attack" in talent:
         entity_attack_stats = entity["weapon"]["attack"]
         for effect in talent["attack"]["effects"]:
-            apply_effect(effect, entity_attack_stats, "attack")
+            apply_effect(effect, entity_attack_stats, talent_type="attack")
     if "defence" in talent:
         if talent["defence"]["armour-type"] == "all":
             for armour_type in ["headArmour", "chestArmour"]:
@@ -86,44 +86,70 @@ def apply_talent(entity: dict, talent: dict) -> None:
             armour_type = talent["defence"]["armour-type"]
             for effect in talent["defence"]["effects"]:
                     entity_defence_stats = entity[armour_type]["defence"]
-                    apply_effect(effect, entity_defence_stats, "defence")
+                    apply_effect(effect, entity_defence_stats, talent_type="defence")
 
 
-def compute_mitigation(weapon_stats, defence_type):
-    return {stat_type: cap_stat(weapon_stats[stat_type] 
-                              - weapon_stats[stat_type] * defence_type[stat_type] / 100, "attack")
-                                for stat_type in weapon_stats}
+def compute_mitigation(attack_stats: dict, armour_stats: dict):
+    """
+    computes the mitigation done by an armour on each attack stats
+
+    parameters:
+    attack_stats (dict): collection of all attack stats
+    armour_stats (dict): collection of all armour stats for a specific armour
+
+    returns:
+    dict: attack stats after mitigation
+
+    """
+    return {stat_type: cap_stat(attack_stats[stat_type] 
+                              - attack_stats[stat_type] * armour_stats[stat_type] / 100, "attack")
+                                for stat_type in attack_stats}
 
 
-def compute_effective_damage(weapon_stats, chest_defence, head_defence):
-    demage_after_chest_mitigation = compute_mitigation(weapon_stats, chest_defence)
+def compute_effective_damage(attack_stats, chest_defence, head_defence):
+    """
+    applies chest armour mitigation first, then head mitigation on the attack stats
+
+    parameters:
+    attack_stats (dict): collection of all attack stats
+    armour_stats (dict): collection of all armour stats for a specific armour
+
+    returns:
+    dict: effective damage
+    """
+    demage_after_chest_mitigation = compute_mitigation(attack_stats, chest_defence)
     return compute_mitigation(demage_after_chest_mitigation, head_defence)
 
 
 def round_effective_damage(effective_damage):
+    """rounds the effective damage"""
     for type, value in effective_damage.items():
         effective_damage[type] = round(value)
 
 
 app = Flask(__name__)
 
-@app.route('/data')
+@app.route('/')
+def index():
+    return "go to /run to execute"
+
+@app.route('/run')
 def data():
     URL_GET = "https://hiring-test-dxxsnwdabq-oa.a.run.app/duel"
     URL_POST = "https://hiring-test-dxxsnwdabq-oa.a.run.app/processDuel"
     with open('talents.json') as json_file:
         talents = json.load(json_file)
 
-    data = requests.get(URL_GET).json()
+    duel_data = requests.get(URL_GET).json()
     # deepcopy required because talents are applied in place to the entities
     # but we need to send the original entities to the server
-    enemy = data["data"]["duel"]["enemy"]
+    enemy = duel_data["data"]["duel"]["enemy"]
     enemy_copy = deepcopy(enemy)
-    myself = data["data"]["duel"]["myself"]
+    myself = duel_data["data"]["duel"]["myself"]
     myself_copy = deepcopy(myself)
-    my_weapon_stats = myself["weapon"]["attack"]
+    my_attack_stats = myself["weapon"]["attack"]
 
-    raw_damage = sum(my_weapon_stats.values())
+    raw_damage = sum(my_attack_stats.values())
 
     for talent in myself["talents"]:
         apply_talent(myself, talents[talent])
@@ -132,7 +158,7 @@ def data():
     
     chest_defence = enemy["chestArmour"]["defence"]
     head_defence = enemy["headArmour"]["defence"]
-    effective_damage = compute_effective_damage(my_weapon_stats, chest_defence, head_defence)
+    effective_damage = compute_effective_damage(my_attack_stats, chest_defence, head_defence)
     round_effective_damage(effective_damage)
 
     out_data = {
@@ -144,7 +170,6 @@ def data():
         }
     }
 
-    #print(json.dumps(out_data, indent= 4))
     response = urllib3.request("POST", URL_POST,
                                 headers={'Content-Type': 'application/json'},
                                 body=json.dumps(out_data, sort_keys=True))
