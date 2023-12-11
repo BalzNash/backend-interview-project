@@ -1,6 +1,6 @@
 # backend-interview-project
 
-A simple Flask API that aquires some JSON data, processes the data and sends it to another API
+A simple Flask API that acquires some JSON data, processes the data and sends it to another API
 
 1. the API sends a GET request to an external API
 2. a JSON file containing duel data between 'enemy' and 'myself' is received, 'myself' attacks 'enemy'
